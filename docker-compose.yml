@@ -7,9 +7,9 @@ services:
         image: postgres
         restart: always
         environment:
-            POSTGRES_USER: USER
-            POSTGRES_PASSWORD: USERNAME
-            POSTGRES_DB: USER
+            POSTGRES_USER: user
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: user
         ports:
             - "5432:5432"
     pgadmin:
@@ -21,3 +21,8 @@ services:
             PGADMIN_DEFAULT_PASSWORD: root
         ports:
             - "5050:80"
+    create_db:
+        build: .
+        command: python3 models.py
+        depends_on:
+            - db 
