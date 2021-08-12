@@ -42,7 +42,7 @@ def generate_computer():
     time_checked = datetime.datetime.now()
     notes = None
 
-    success =add_computer(
+    success = add_computer(
         make=make,
         model=model,
         service_tag=service_tag,
@@ -62,5 +62,8 @@ def generate_computer():
         print('Successfully added')
 
 
-for _ in range(10):
-    generate_computer()
+#for _ in range(15):
+#    generate_computer()
+
+print(search(one='one', two='two', make='Dell', checker='Josh'))
+
