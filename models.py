@@ -3,7 +3,6 @@ import sqlalchemy as db
 from sqlalchemy.orm import declarative_base, sessionmaker
 from sqlalchemy import Column, Integer, String, Sequence, Boolean, DateTime
 from sqlalchemy.types import MatchType
-from credentials import *
 
 Base = declarative_base()
 

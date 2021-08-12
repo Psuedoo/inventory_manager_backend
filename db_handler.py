@@ -3,7 +3,6 @@ import sqlalchemy as db
 from sqlalchemy import engine
 from sqlalchemy.orm import declarative_base, query, sessionmaker, Query
 from models import Computer
-from credentials import *
 
 
 def connect():

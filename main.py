@@ -4,7 +4,6 @@ import random
 import sqlalchemy as db
 from sqlalchemy.orm import declarative_base, sessionmaker
 from models import Computer
-from credentials import *
 from db_handler import *
 
 # Create a credentials.py file and create the variables listed below
