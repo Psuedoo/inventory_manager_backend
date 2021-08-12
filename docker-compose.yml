@@ -24,10 +24,10 @@ services:
         links:
             - db
 
-    create_table:
+    app:
         build: .
-        depends_on:
-            - adminer
+        depends_on: 
+            - db
         links:
             - db
         environment: 
@@ -36,19 +36,5 @@ services:
             SERVER_IP: db
             DATABASE_NAME: admin
 
-        command: python3 models.py
 
-    generate_data:
-        build: .
-        depends_on:
-            - create_table
-        links:
-            - db
-        environment: 
-            USERNAME: admin
-            PASSWORD: dbpass
-            SERVER_IP: db
-            DATABASE_NAME: admin
-
-        command: python3 main.py
 

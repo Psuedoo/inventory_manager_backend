@@ -28,10 +28,10 @@ class Computer(Base):
 
 if __name__ == '__main__':
 
-    USERNAME = os.getenv('USERNAME')
-    PASSWORD = os.getenv('PASSWORD')
-    SERVER_IP = os.getenv('SERVER_IP')
-    DATABASE_NAME = os.getenv('DATABASE_NAME')
+    USERNAME = os.getenv('USERNAME', 'admin')
+    PASSWORD = os.getenv('PASSWORD', 'dbpass')
+    SERVER_IP = os.getenv('SERVER_IP','db')
+    DATABASE_NAME = os.getenv('DATABASE_NAME', 'admin')
 
     engine = db.create_engine(f'postgresql+psycopg2://{USERNAME}:{PASSWORD}@{SERVER_IP}/{DATABASE_NAME}', echo=True)
 

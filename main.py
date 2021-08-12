@@ -7,10 +7,10 @@ from models import Computer
 from db_handler import *
 
 # Create a credentials.py file and create the variables listed below
-USERNAME = os.getenv('USERNAME')
-PASSWORD = os.getenv('PASSWORD')
-SERVER_IP = os.getenv('SERVER_IP')
-DATABASE_NAME = os.getenv('DATABASE_NAME')
+USERNAME = os.getenv('USERNAME', 'admin')
+PASSWORD = os.getenv('PASSWORD', 'dbpass')
+SERVER_IP = os.getenv('SERVER_IP','db')
+DATABASE_NAME = os.getenv('DATABASE_NAME', 'admin')
 
 engine = db.create_engine(f'postgresql+psycopg2://{USERNAME}:{PASSWORD}@{SERVER_IP}/{DATABASE_NAME}', echo=True)
 
