@@ -1,6 +1,6 @@
 import random
 import datetime
-from models import Computer
+from database.models import Computer
 
 
 def generate_computer(handler, service_tag):
