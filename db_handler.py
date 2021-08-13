@@ -11,16 +11,6 @@ class DatabaseHandler:
         self.DATABASE_NAME = DATABASE_NAME
         self.session = initialize_db()
 
-    # def connect(self):
-    #     engine = db.create_engine(f'postgresql+psycopg2://{self.USERNAME}:{self.PASSWORD}@{self.SERVER_IP}/{self.DATABASE_NAME}', echo=True)
-    
-    #     Session = sessionmaker(engine)
-    #     session = Session()
-
-    #     Base = declarative_base()
-
-    #     return session, Base, engine
-
     def add_computer(self, computer):
         self.session.add(computer)
         return self.session.commit()
