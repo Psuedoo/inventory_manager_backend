@@ -3,7 +3,7 @@ import datetime
 from models import Computer
 
 
-def generate_computer(handler):
+def generate_computer(handler, service_tag):
     make = 'Dell',
     model = f'Latitude {random.randint(1000, 9000)}'
     service_tag = f'{service_tag}'
