@@ -1,11 +1,20 @@
-import os
-import sqlalchemy as db
-from sqlalchemy.orm import declarative_base, sessionmaker
-from sqlalchemy import Column, Integer, String, Sequence, Boolean, DateTime
-from sqlalchemy.types import MatchType
+from sqlalchemy.orm.session import sessionmaker
+from constant import *
+from sqlalchemy.orm import declarative_base
+from sqlalchemy import create_engine, Column, Integer, String, Sequence, Boolean, DateTime
 
 Base = declarative_base()
 
+def initialize_db():
+    engine = create_engine(f'postgresql+psycopg2://{USERNAME}:{PASSWORD}@{SERVER_IP}/{DATABASE_NAME}', echo=True)
+    
+    session_maker = sessionmaker(bind=engine)
+    session = session_maker()
+
+    Base.metadata.bind = engine
+    Base.metadata.create_all(checkfirst=True)
+
+    return session
 
 class Computer(Base):
     __tablename__ = 'inventory'
@@ -25,18 +34,3 @@ class Computer(Base):
     time_checked = Column(DateTime)
     notes = Column(String)
 
-
-if __name__ == '__main__':
-
-    USERNAME = os.getenv('USERNAME', 'admin')
-    PASSWORD = os.getenv('PASSWORD', 'dbpass')
-    SERVER_IP = os.getenv('SERVER_IP','db')
-    DATABASE_NAME = os.getenv('DATABASE_NAME', 'admin')
-
-    engine = db.create_engine(f'postgresql+psycopg2://{USERNAME}:{PASSWORD}@{SERVER_IP}/{DATABASE_NAME}', echo=True)
-
-    Session = sessionmaker(engine)
-    session = Session()
-
-    Base.metadata.create_all(engine, checkfirst=True)
-    print('added')

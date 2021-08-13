@@ -1,24 +1,11 @@
 import datetime
 import random
 
-import sqlalchemy as db
-from sqlalchemy.orm import declarative_base, sessionmaker
 from models import Computer
-from db_handler import *
+from db_handler import DatabaseHandler
 
-# Create a credentials.py file and create the variables listed below
-USERNAME = os.getenv('USERNAME', 'admin')
-PASSWORD = os.getenv('PASSWORD', 'dbpass')
-SERVER_IP = os.getenv('SERVER_IP','db')
-DATABASE_NAME = os.getenv('DATABASE_NAME', 'admin')
 
-engine = db.create_engine(f'postgresql+psycopg2://{USERNAME}:{PASSWORD}@{SERVER_IP}/{DATABASE_NAME}', echo=True)
-
-Session = sessionmaker(engine)
-session = Session()
-
-Base = declarative_base()
-
+handler = DatabaseHandler()
 
 def generate_computer(service_tag):
     make = 'Dell',
@@ -62,7 +49,7 @@ def generate_computer(service_tag):
         notes=notes
     )
 
-    success = add_computer(computer)
+    success = handler.add_computer(computer)
 
     if success:
         print('Successfully added')
@@ -72,9 +59,11 @@ for i in range(15):
    generate_computer(i)
 
 
-print(search(one='one', two='two', make='Dell', service_tag="10"))
+print(handler.search(one='one', two='two', make='Dell', service_tag="10"))
 
-computer = search(service_tag="10")
-
-remove_computer(computer)
+computer = handler.search(service_tag="10")
+if len(computer) == 1:
+    handler.remove_computer(computer[0])
+else:
+    print("Can't delete multiple computers!")
 

@@ -27,7 +27,7 @@ services:
     app:
         build: .
         depends_on: 
-            - db
+            - adminer
         links:
             - db
         environment: 
@@ -35,6 +35,7 @@ services:
             PASSWORD: dbpass
             SERVER_IP: db
             DATABASE_NAME: admin
+        command: python3 main.py
 
 
 
