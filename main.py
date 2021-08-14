@@ -7,7 +7,7 @@ from fastapi import FastAPI
 handler = DatabaseHandler()
 app = FastAPI()
 
-for i in range(15):
+for i in range(10):
    generate_computer(handler, i)
 
 @app.get("/")
