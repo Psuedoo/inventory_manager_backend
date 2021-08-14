@@ -12,8 +12,12 @@ for i in range(15):
 
 @app.get("/")
 async def root():
-    return {'computers': handler.search(make='Dell')}
+    return {'computers': handler.search()}
 
+@app.get("/checker/{checker_name}")
+async def get_checker(checker_name: str):
+    checker_name = checker_name.lower().capitalize()
+    return {'computers': handler.search(checker=checker_name)}
 
 # print(handler.search(one='one', two='two', make='Dell', service_tag="10"))
 
