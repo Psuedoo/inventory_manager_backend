@@ -1,2 +1,4 @@
 sqlalchemy
 psycopg2
+fastapi
+uvicorn
