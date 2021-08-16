@@ -14,6 +14,10 @@ for i in range(15):
 async def root():
     return {'computers': handler.search()}
 
+@app.get("/make/{make}")
+async def get_make(make: str):
+    return {'computers': handler.search(make=make)
+
 @app.get("/checker/{checker_name}")
 async def get_checker(checker_name: str):
     checker_name = checker_name.lower().capitalize()
