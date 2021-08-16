@@ -36,7 +36,7 @@ async def get_issued(is_issued: Optional[bool] = True):
 async def get_issuee(url_issuee: str):
     return {'computers': handler.search(issuee=url_issuee)}
 
-@app.get("/on_location/{is_on_location}}")
+@app.get("/on_location/{is_on_location}")
 async def get_on_location(is_on_location: Optional[bool] = True):
     return {'computers': handler.search(on_location=is_on_location)}
 
