@@ -23,7 +23,6 @@ async def get_inventory():
 async def get_asset_tag(asset_tag: int):
     return {'computers': handler.search(asset_tag=asset_tag)}
 
-# Need to figure out what's going on here "Latitude 6293"
 @app.get("/model/{model}")
 async def get_model(model: str):
     model = model.lower().capitalize()
@@ -33,17 +32,14 @@ async def get_model(model: str):
 async def get_issued(is_issued: Optional[bool] = True):
     return {'computers': handler.search(issued=is_issued)}
 
-# Also look into this. Issue arises when using two words
 @app.get("/issuee/{url_issuee}")
 async def get_issuee(url_issuee: str):
     return {'computers': handler.search(issuee=url_issuee)}
 
-# Is not working
 @app.get("/on_location/{is_on_location}}")
 async def get_on_location(is_on_location: Optional[bool] = True):
     return {'computers': handler.search(on_location=is_on_location)}
 
-# Two word issue
 @app.get("/on_location/location/{location}")
 async def get_location(location: str):
     location = location.lower().capitalize()
