@@ -16,7 +16,8 @@ async def root():
 
 @app.get("/make/{make}")
 async def get_make(make: str):
-    return {'computers': handler.search(make=make)
+    make = make.lower().capitalize()
+    return {'computers': handler.search(make=make)}
 
 @app.get("/checker/{checker_name}")
 async def get_checker(checker_name: str):
