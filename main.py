@@ -34,10 +34,9 @@ async def get_issued(is_issued: Optional[bool] = True):
     return {'computers': handler.search(issued=is_issued)}
 
 # Also look into this. Issue arises when using two words
-@app.get("/issued/issuee/{issuee}")
-async def get_issuee(issuee: str, issued: bool = True):
-    issuee = issuee.lower().capitalize()
-    return {'computers': handler.search(issuee=issuee)}
+@app.get("/issuee/{url_issuee}")
+async def get_issuee(url_issuee: str):
+    return {'computers': handler.search(issuee=url_issuee)}
 
 # Is not working
 @app.get("/on_location/{is_on_location}}")
