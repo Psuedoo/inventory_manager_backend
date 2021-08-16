@@ -8,16 +8,25 @@ from fastapi import FastAPI
 handler = DatabaseHandler()
 app = FastAPI()
 
-for i in range(15):
-   generate_computer(handler, i)
+# for i in range(30):
+#    generate_computer(handler, i)
 
 @app.get("/")
 async def root():
     return {'computers': handler.search()}
 
 @app.get("/inventory/")
-async def get_inventory(make: str = None):
-    return {'computers': handler.search()}
+async def get_inventory(make: str = None, checker: str = None):
+    if make and not checker:
+        computers = handler.search(make=make)
+    elif checker and not make:
+        computers = handler.search(checker=checker)
+    elif make and checker:
+        computers = handler.search(make=make, checker=chec)
+    else:
+        computers = handler.search()
+
+    return {'computers': computers}
 
 @app.get("/asset_tag/{asset_tag}")
 async def get_asset_tag(asset_tag: int):
