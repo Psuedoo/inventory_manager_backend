@@ -19,7 +19,10 @@ class DatabaseHandler:
         self.session.delete(computer)
         self.session.commit()
 
-    def search(self, **search_props):
+    def search(self, search_props: dict):
+
+        print(f"{search_props=}")
+
         valid_properties = [
             'make',
             'model',
@@ -41,7 +44,8 @@ class DatabaseHandler:
 
         # Validating inputs
         for key, value in search_props.items():
-            if key in valid_properties:
+
+            if key in valid_properties and value:
                 filters[key] = value
             else:
                 print(f'{key} is not a valid searchable property')
@@ -49,5 +53,7 @@ class DatabaseHandler:
         for attr, value in filters.items():
             print(attr, value)
             query = query.filter(getattr(Computer, attr)==value)
+
+        print(f"{filters=}")
 
         return query.all()
