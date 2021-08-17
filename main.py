@@ -11,6 +11,7 @@ from fastapi.middleware.cors import CORSMiddleware
 handler = DatabaseHandler()
 app = FastAPI()
 
+
 origins = [
     'http://localhost',
     'http://localhost:8000'
