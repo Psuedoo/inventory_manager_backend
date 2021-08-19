@@ -69,7 +69,12 @@ async def root():
 async def get_inventory(commons: dict = Depends(common_parameters)):
     return handler.search(search_props=commons)
 
-
+@app.post("/inventory/")
+async def post_inventory(commons: dict = Depends(common_parameters)):
+    try:
+        handler.add_computer(commons)
+    except Exception as e:
+        return {"error": f"{e}"}
 
 # print(handler.search(one='one', two='two', make='Dell', service_tag="10"))
 
