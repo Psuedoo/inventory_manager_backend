@@ -12,6 +12,9 @@ handler = DatabaseHandler()
 app = FastAPI()
 
 
+for i in range(20):
+    generate_computer(handler, i)
+
 origins = [
     'http://localhost',
     'http://localhost:8000'

@@ -14,13 +14,13 @@ def generate_computer(handler, service_tag):
         assigned_to = 'Test Issuee'
         on_hand = False
     else:
-        assigned_to = None
+        assigned_to = 'Unassigned'
         on_hand = random.choice([True, False])
 
     if on_hand:
         on_location = False
-        computer_location = None
-        class_location = None
+        computer_location = 'Storage'
+        class_location = 'N/A'
     else:
         on_location = True
         computer_location = f'Classroom {random.choice(["2400", "2401", "2300", "2301"])}'
@@ -28,7 +28,7 @@ def generate_computer(handler, service_tag):
 
     checker = random.choice(['Tracy', 'Stefan', 'Josh', 'Austin'])
     time_checked = datetime.datetime.now()
-    notes = None
+    notes = ''
 
     computer = Computer(
         make=make,
