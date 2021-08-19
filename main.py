@@ -1,11 +1,12 @@
 from typing import Optional
-import datetime 
+from datetime import datetime 
 
 from database.db_handler import DatabaseHandler
 from database.models import Computer
 from utils.util import generate_computer
 from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 
 
 handler = DatabaseHandler()
@@ -41,7 +42,7 @@ async def common_parameters(
     computer_location: Optional[str] = None,
     class_location: Optional[str] = None,
     checker: Optional[str] = None,
-    time_checked: Optional[datetime.datetime] = None,
+    time_checked: Optional[datetime] = None,
     notes: Optional[str] = None
 
 ):
@@ -61,20 +62,40 @@ async def common_parameters(
         "notes": notes,
     }
 
+class PostComputer(BaseModel):
+    make: str
+    model: str 
+    service_tag: str 
+    asset_tag: str 
+    issued: bool 
+    assigned_to: str 
+    on_hand: bool 
+    on_location: bool 
+    computer_location: str 
+    class_location: str
+    checker: str
+    time_checked: Optional[datetime] = datetime.now()
+    notes: str
+
+    class Config:
+        orm_mode = True
+
 @app.get("/")
 async def root():
     return {'response': 'OK'}
+
+@app.post("/inventory/add/", response_model=PostComputer)
+async def post_inventory(computer: PostComputer):
+    print(computer)
+    try:
+        handler.add_computer(computer)
+    except Exception as e:
+        return {"error": f"{e}"}
 
 @app.get("/inventory/")
 async def get_inventory(commons: dict = Depends(common_parameters)):
     return handler.search(search_props=commons)
 
-@app.post("/inventory/")
-async def post_inventory(commons: dict = Depends(common_parameters)):
-    try:
-        handler.add_computer(commons)
-    except Exception as e:
-        return {"error": f"{e}"}
 
 # print(handler.search(one='one', two='two', make='Dell', service_tag="10"))
 

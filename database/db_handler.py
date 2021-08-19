@@ -42,28 +42,24 @@ class DatabaseHandler:
 
 
     def add_computer(self, computer):
-        if type(computer) == dict:
-            valid_inputs = self.validate_inputs(computer)
+        print(type(computer), computer)
 
-            valid_computer = Computer(
-                make=valid_inputs.get('make', None),
-                model=valid_inputs.get('model', None),
-                service_tag=valid_inputs.get('service_tag', None),
-                asset_tag=valid_inputs.get('asset_tag', None),
-                issued=valid_inputs.get('issued', False),
-                assigned_to=valid_inputs.get('assigned_to', None),
-                on_hand=valid_inputs.get('on_hand', False),
-                on_location=valid_inputs.get('on_location', False),
-                computer_location=valid_inputs.get('computer_location', None),
-                class_location=valid_inputs.get('class_location', None),
-                checker=valid_inputs.get('checker', None),
-                time_checked=valid_inputs.get('time_checked', datetime.now()),
-                notes=valid_inputs.get('notes', '')
+        valid_computer = Computer(
+                make=computer.make,
+                model=computer.model,
+                service_tag=computer.service_tag,
+                asset_tag=computer.asset_tag,
+                issued=computer.issued,
+                assigned_to=computer.assigned_to,
+                on_hand=computer.on_hand,
+                on_location=computer.on_location,
+                computer_location=computer.computer_location,
+                class_location=computer.class_location,
+                checker=computer.checker,
+                time_checked=datetime.now(),
+                notes=computer.notes
             )
-
-        else:
-            valid_computer = computer
-
+        
         self.session.add(valid_computer)
         return self.session.commit()
 
