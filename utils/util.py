@@ -28,7 +28,6 @@ def generate_computer(handler, service_tag):
 
     checker = random.choice(['Tracy', 'Stefan', 'Josh', 'Austin'])
     time_checked = datetime.datetime.now()
-    notes = ''
 
     computer = Computer(
         make=make,
@@ -43,7 +42,7 @@ def generate_computer(handler, service_tag):
         class_location=class_location,
         checker=checker,
         time_checked=time_checked,
-        notes=notes
+        notes=None
     )
 
     success = handler.add_computer(computer)
