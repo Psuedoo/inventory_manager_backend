@@ -12,7 +12,7 @@ handler = DatabaseHandler()
 app = FastAPI()
 
 
-for i in range(20):
+for i in range(50):
     generate_computer(handler, i)
 
 origins = [
@@ -33,7 +33,7 @@ async def common_parameters(
     make: Optional[str] = None,
     model: Optional[str] = None,
     service_tag: Optional[str] = None,
-    asset_tag: Optional[int] = None,
+    asset_tag: Optional[str] = None,
     issued: Optional[bool] = None,
     assigned_to: Optional[str] = None,
     on_hand: Optional[bool] = None,

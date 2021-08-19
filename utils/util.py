@@ -8,7 +8,7 @@ def generate_computer(handler, service_tag):
     make = 'Dell',
     model = f'Latitude {random.randint(1000, 9000)}'
     service_tag = f'{service_tag}'
-    asset_tag = random.randint(124000, 126000)
+    asset_tag = f'{random.randint(124000, 126000)}'
     issued = random.choice([True, False])
     if issued:
         assigned_to = 'Test Issuee'

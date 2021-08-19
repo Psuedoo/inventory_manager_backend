@@ -23,7 +23,7 @@ class Computer(Base):
     make = Column(String)
     model = Column(String)
     service_tag = Column(String)
-    asset_tag = Column(Integer)
+    asset_tag = Column(String)
     issued = Column(Boolean)
     assigned_to = Column(String)
     on_hand = Column(Boolean)
