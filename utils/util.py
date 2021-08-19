@@ -11,19 +11,19 @@ def generate_computer(handler, service_tag):
     asset_tag = random.randint(124000, 126000)
     issued = random.choice([True, False])
     if issued:
-        issuee = 'Test Issuee'
+        assigned_to = 'Test Issuee'
         on_hand = False
     else:
-        issuee = None
+        assigned_to = None
         on_hand = random.choice([True, False])
 
     if on_hand:
         on_location = False
-        location = None
+        computer_location = None
         class_location = None
     else:
         on_location = True
-        location = f'Classroom {random.choice(["2400", "2401", "2300", "2301"])}'
+        computer_location = f'Classroom {random.choice(["2400", "2401", "2300", "2301"])}'
         class_location = random.choice(['Lab', 'Podium'])
 
     checker = random.choice(['Tracy', 'Stefan', 'Josh', 'Austin'])
@@ -36,10 +36,10 @@ def generate_computer(handler, service_tag):
         service_tag=service_tag,
         asset_tag=asset_tag,
         issued=issued,
-        issuee=issuee,
+        assigned_to=assigned_to,
         on_hand=on_hand,
         on_location=on_location,
-        location=location,
+        computer_location=computer_location,
         class_location=class_location,
         checker=checker,
         time_checked=time_checked,
