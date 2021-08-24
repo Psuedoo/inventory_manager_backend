@@ -1,6 +1,9 @@
 # Inventory Manager
 Inventory Manager is the backend service for an inventory management system.
 
+Front end:
+- https://github.com/Psuedoo/inventory_manager_vue
+
 # Local Development
 Requirements:
 - Docker
