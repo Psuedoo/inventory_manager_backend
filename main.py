@@ -1,16 +1,20 @@
 from typing import Optional
-import datetime 
+from datetime import datetime 
 
 from database.db_handler import DatabaseHandler
 from database.models import Computer
 from utils.util import generate_computer
 from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 
 
 handler = DatabaseHandler()
 app = FastAPI()
 
+
+for i in range(50):
+    generate_computer(handler, i)
 
 origins = [
     'http://localhost',
@@ -30,15 +34,15 @@ async def common_parameters(
     make: Optional[str] = None,
     model: Optional[str] = None,
     service_tag: Optional[str] = None,
-    asset_tag: Optional[int] = None,
+    asset_tag: Optional[str] = None,
     issued: Optional[bool] = None,
-    issuee: Optional[str] = None,
+    assigned_to: Optional[str] = None,
     on_hand: Optional[bool] = None,
     on_location: Optional[bool] = None,
-    location: Optional[str] = None,
+    computer_location: Optional[str] = None,
     class_location: Optional[str] = None,
     checker: Optional[str] = None,
-    time_checked: Optional[datetime.datetime] = None,
+    time_checked: Optional[datetime] = None,
     notes: Optional[str] = None
 
 ):
@@ -48,24 +52,49 @@ async def common_parameters(
         "service_tag": service_tag,
         "asset_tag": asset_tag,
         "issued": issued,
-        "issuee": issuee,
+        "assigned_to": assigned_to,
         "on_hand": on_hand,
         "on_location": on_location,
-        "location": location,
+        "computer_location": computer_location,
         "class_location": class_location,
         "checker": checker,
         "time_checked": time_checked,
         "notes": notes,
     }
 
+class PostComputer(BaseModel):
+    make: str
+    model: str 
+    service_tag: str 
+    asset_tag: str 
+    issued: bool 
+    assigned_to: str 
+    on_hand: bool 
+    on_location: bool 
+    computer_location: str 
+    class_location: str
+    checker: str
+    time_checked: Optional[datetime] = datetime.now()
+    notes: str
+
+    class Config:
+        orm_mode = True
+
 @app.get("/")
 async def root():
     return {'response': 'OK'}
 
+@app.post("/inventory/add/", response_model=PostComputer)
+async def post_inventory(computer: PostComputer):
+    print(computer)
+    try:
+        handler.add_computer(computer)
+    except Exception as e:
+        return {"error": f"{e}"}
+
 @app.get("/inventory/")
 async def get_inventory(commons: dict = Depends(common_parameters)):
     return handler.search(search_props=commons)
-
 
 
 # print(handler.search(one='one', two='two', make='Dell', service_tag="10"))

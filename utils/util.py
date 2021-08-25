@@ -8,27 +8,26 @@ def generate_computer(handler, service_tag):
     make = 'Dell',
     model = f'Latitude {random.randint(1000, 9000)}'
     service_tag = f'{service_tag}'
-    asset_tag = random.randint(124000, 126000)
+    asset_tag = f'{random.randint(124000, 126000)}'
     issued = random.choice([True, False])
     if issued:
-        issuee = 'Test Issuee'
+        assigned_to = 'Test Issuee'
         on_hand = False
     else:
-        issuee = None
+        assigned_to = 'Unassigned'
         on_hand = random.choice([True, False])
 
     if on_hand:
         on_location = False
-        location = None
-        class_location = None
+        computer_location = 'Storage'
+        class_location = 'N/A'
     else:
         on_location = True
-        location = f'Classroom {random.choice(["2400", "2401", "2300", "2301"])}'
+        computer_location = f'Classroom {random.choice(["2400", "2401", "2300", "2301"])}'
         class_location = random.choice(['Lab', 'Podium'])
 
     checker = random.choice(['Tracy', 'Stefan', 'Josh', 'Austin'])
     time_checked = datetime.datetime.now()
-    notes = None
 
     computer = Computer(
         make=make,
@@ -36,14 +35,14 @@ def generate_computer(handler, service_tag):
         service_tag=service_tag,
         asset_tag=asset_tag,
         issued=issued,
-        issuee=issuee,
+        assigned_to=assigned_to,
         on_hand=on_hand,
         on_location=on_location,
-        location=location,
+        computer_location=computer_location,
         class_location=class_location,
         checker=checker,
         time_checked=time_checked,
-        notes=notes
+        notes=None
     )
 
     success = handler.add_computer(computer)

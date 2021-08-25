@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from sqlalchemy.orm.session import sessionmaker
 from constant import *
 from sqlalchemy.orm import declarative_base
@@ -20,17 +22,17 @@ class Computer(Base):
     __tablename__ = 'inventory'
 
     id = Column(Integer, Sequence('computer_id_seq'), primary_key=True)
-    make = Column(String)
-    model = Column(String)
-    service_tag = Column(String)
-    asset_tag = Column(Integer)
-    issued = Column(Boolean)
-    issuee = Column(String)
-    on_hand = Column(Boolean)
-    on_location = Column(Boolean)
-    location = Column(String)
-    class_location = Column(String)
-    checker = Column(String)
-    time_checked = Column(DateTime)
-    notes = Column(String)
+    make = Column(String, nullable=False)
+    model = Column(String, nullable=False)
+    service_tag = Column(String, nullable=False)
+    asset_tag = Column(String, nullable=False)
+    issued = Column(Boolean, nullable=False)
+    assigned_to = Column(String, default='Unassigned', nullable=False)
+    on_hand = Column(Boolean, nullable=False)
+    on_location = Column(Boolean, nullable=False)
+    computer_location = Column(String, nullable=False)
+    class_location = Column(String, default='N/A', nullable=False)
+    checker = Column(String, nullable=False)
+    time_checked = Column(DateTime, default=datetime.now(), nullable=False)
+    notes = Column(String, default='', nullable=False)
 
