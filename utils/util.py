@@ -27,7 +27,7 @@ def generate_computer(handler, service_tag):
         class_location = random.choice(['Lab', 'Podium'])
 
     checker = random.choice(['Tracy', 'Stefan', 'Josh', 'Austin'])
-    time_checked = datetime.datetime.now()
+    time_checked = datetime.datetime.now() - datetime.timedelta(days=random.randint(1, 100), hours=random.randint(1, 12))
 
     computer = Computer(
         make=make,

@@ -43,6 +43,9 @@ class DatabaseHandler:
 
 
     def add_computer(self, computer):
+        if not computer.time_checked:
+            computer.time_checked = datetime.now()
+
         valid_computer = Computer(
                 make=computer.make,
                 model=computer.model,
@@ -55,7 +58,7 @@ class DatabaseHandler:
                 computer_location=computer.computer_location,
                 class_location=computer.class_location,
                 checker=computer.checker,
-                time_checked=datetime.now(),
+                time_checked=computer.time_checked,
                 notes=computer.notes
             )
         

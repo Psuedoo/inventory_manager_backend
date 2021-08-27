@@ -75,7 +75,7 @@ class PostComputer(BaseModel):
     computer_location: str 
     class_location: str
     checker: str
-    time_checked: Optional[datetime] = datetime.now()
+    time_checked: Optional[datetime] = None
     notes: str
 
     class Config:
