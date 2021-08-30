@@ -14,6 +14,7 @@ class DatabaseHandler:
 
     def validate_inputs(self, props):
         valid_properties = [
+            'id',
             'make',
             'model',
             'service_tag',
@@ -42,7 +43,8 @@ class DatabaseHandler:
 
 
     def add_computer(self, computer):
-        print(type(computer), computer)
+        if not computer.time_checked:
+            computer.time_checked = datetime.now()
 
         valid_computer = Computer(
                 make=computer.make,
@@ -56,16 +58,37 @@ class DatabaseHandler:
                 computer_location=computer.computer_location,
                 class_location=computer.class_location,
                 checker=computer.checker,
-                time_checked=datetime.now(),
+                time_checked=computer.time_checked,
                 notes=computer.notes
             )
         
         self.session.add(valid_computer)
         return self.session.commit()
 
-    def remove_computer(self, computer):
+    def remove_computer(self, computer_id):
+        computer = self.search({'id': computer_id})[0]
         self.session.delete(computer)
         self.session.commit()
+
+    def update_computer(self, computer_id, computer):
+        db_computer = self.search({'id': computer_id})[0]
+
+        db_computer.make = computer.make
+        db_computer.model = computer.model
+        db_computer.service_tag = computer.service_tag
+        db_computer.asset_tag = computer.asset_tag
+        db_computer.issued = computer.issued
+        db_computer.assigned_to = computer.assigned_to
+        db_computer.on_hand = computer.on_hand
+        db_computer.on_location = computer.on_location
+        db_computer.computer_location = computer.computer_location
+        db_computer.class_location = computer.class_location
+        db_computer.checker = computer.checker
+        db_computer.time_checked = datetime.now()
+        db_computer.notes = computer.notes
+
+        self.session.commit()
+
 
     def search(self, search_props: dict):
 

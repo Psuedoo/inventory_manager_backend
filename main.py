@@ -6,6 +6,7 @@ from database.models import Computer
 from utils.util import generate_computer
 from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 
 
@@ -74,7 +75,7 @@ class PostComputer(BaseModel):
     computer_location: str 
     class_location: str
     checker: str
-    time_checked: Optional[datetime] = datetime.now()
+    time_checked: Optional[datetime] = None
     notes: str
 
     class Config:
@@ -84,11 +85,25 @@ class PostComputer(BaseModel):
 async def root():
     return {'response': 'OK'}
 
+@app.put("/inventory/update/{computer_id}", response_model=PostComputer)
+async def update_inventory(computer_id: str, computer: PostComputer):
+    try:
+        handler.update_computer(computer_id, computer)
+    except Exception as e:
+        return {"error": f"{e}"}
+
 @app.post("/inventory/add/", response_model=PostComputer)
 async def post_inventory(computer: PostComputer):
     print(computer)
     try:
         handler.add_computer(computer)
+    except Exception as e:
+        return {"error": f"{e}"}
+
+@app.delete("/inventory/delete/{computer_id}", response_model=PostComputer)
+async def delete_computer(computer_id):
+    try:
+        handler.remove_computer(computer_id)
     except Exception as e:
         return {"error": f"{e}"}
 
