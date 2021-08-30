@@ -2,8 +2,8 @@ from datetime import datetime
 
 from sqlalchemy.orm.session import sessionmaker
 from constant import *
-from sqlalchemy.orm import declarative_base
-from sqlalchemy import create_engine, Column, Integer, String, Sequence, Boolean, DateTime
+from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy import create_engine, Column, Integer, String, Sequence, Boolean, DateTime, ForeignKey
 
 Base = declarative_base()
 
@@ -36,3 +36,21 @@ class Computer(Base):
     time_checked = Column(DateTime, default=datetime.now(), nullable=False)
     notes = Column(String, default='', nullable=False)
 
+class Role(Base):
+    __tablename__ = 'roles'
+
+    id = Column(Integer, Sequence('role_id_seq'), primary_key=True)
+    name = Column(String, nullable=False)
+    users = relationship("User", back_populates="role", lazy="dynamic")
+
+class User(Base):
+    __tablename__ = 'users'
+
+    id = Column(Integer, Sequence('user_id_seq'), primary_key=True)
+    username = Column(String, nullable=False)
+    password = Column(String, nullable=False)
+    email = Column(String, nullable=False)
+    role_id = Column(Integer, ForeignKey('roles.id'))
+    role = relationship("Role", back_populates="users")
+
+    

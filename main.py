@@ -14,8 +14,8 @@ handler = DatabaseHandler()
 app = FastAPI()
 
 
-for i in range(50):
-    generate_computer(handler, i)
+# for i in range(50):
+#     generate_computer(handler, i)
 
 origins = [
     'http://localhost',
@@ -109,7 +109,7 @@ async def delete_computer(computer_id):
 
 @app.get("/inventory/")
 async def get_inventory(commons: dict = Depends(common_parameters)):
-    return handler.search(search_props=commons)
+    return handler.search_computer(search_props=commons)
 
 
 # print(handler.search(one='one', two='two', make='Dell', service_tag="10"))

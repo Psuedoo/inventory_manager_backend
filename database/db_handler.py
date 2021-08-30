@@ -1,7 +1,7 @@
 import sqlalchemy as db
 from datetime import datetime
 from sqlalchemy.orm import declarative_base, sessionmaker 
-from .models import Computer, initialize_db
+from .models import Computer, Role, User, initialize_db
 from constant import *
 
 class DatabaseHandler:
@@ -27,9 +27,13 @@ class DatabaseHandler:
             'class_location',
             'checker',
             'time_checked',
-            'notes'
+            'notes',
+            'username',
+            'password',
+            'name'
         ]
         valididated_props = {}
+        search_item = ''
 
         # Validating inputs
         for key, value in props.items():
@@ -39,8 +43,27 @@ class DatabaseHandler:
             else:
                 print(f'{key} is not a valid property')
 
-        return valididated_props
+        return search_item, valididated_props
 
+    def search(self, search_type, search_props: dict):
+
+        filters = self.validate_inputs(search_props)
+
+        if search_type == 'Computer':
+            search_table = Computer
+        elif search_type == 'User':
+            search_table = User
+        elif search_type == 'Role':
+            search_table = Role
+
+        
+        query = self.session.query(search_table)
+
+        for attr, value in filters.items():
+            print(attr, value)
+            query = query.filter(getattr(search_table, attr)==value)
+
+        return query.all()
 
     def add_computer(self, computer):
         if not computer.time_checked:
@@ -89,15 +112,47 @@ class DatabaseHandler:
 
         self.session.commit()
 
+    def add_user(self, username, password, email, role_id):
+        user = User(
+            username=username,
+            password=password,
+            email=email,
+            role_id=role_id,
+        )
 
-    def search(self, search_props: dict):
+        self.session.add(user)
+        self.session.commit()
 
-        filters = self.validate_inputs(search_props)
+    def remove_user(self, user_id):
+        user = self.search({'id': user_id})[0]
+        self.session.delete(user)
+        self.session.commit()
 
-        query = self.session.query(Computer)
+    def update_user(self, user_id, user):
+        db_user = self.search({'id': user_id})[0]
 
-        for attr, value in filters.items():
-            print(attr, value)
-            query = query.filter(getattr(Computer, attr)==value)
+        db_user.username = user.username
+        db_user.password = user.password
+        db_email = user.email
+        db_role_id = user.role_id
 
-        return query.all()
+
+    def add_role(self, name):
+        role = Role(
+            name=name
+        )
+
+        self.session.add(role)
+        return self.session.commit()
+
+    def remove_role(self, role_id):
+        role = self.search({'id': role_id})[0]
+        self.session.delete(role)
+        self.session.commit()
+
+    def update_role(self, role_id, role):
+        db_role = self.search({'id': role_id})[0]
+
+        db_role.name = role.name
+
+        self.sesion.commit()
