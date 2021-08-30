@@ -100,6 +100,13 @@ async def post_inventory(computer: PostComputer):
     except Exception as e:
         return {"error": f"{e}"}
 
+@app.delete("/inventory/delete/{computer_id}", response_model=PostComputer)
+async def delete_computer(computer_id):
+    try:
+        handler.remove_computer(computer_id)
+    except Exception as e:
+        return {"error": f"{e}"}
+
 @app.get("/inventory/")
 async def get_inventory(commons: dict = Depends(common_parameters)):
     return handler.search(search_props=commons)

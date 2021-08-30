@@ -65,7 +65,8 @@ class DatabaseHandler:
         self.session.add(valid_computer)
         return self.session.commit()
 
-    def remove_computer(self, computer):
+    def remove_computer(self, computer_id):
+        computer = self.search({'id': computer_id})[0]
         self.session.delete(computer)
         self.session.commit()
 
