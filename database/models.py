@@ -44,7 +44,7 @@ class Role(Base):
 
     id = Column(Integer, Sequence('role_id_seq'), primary_key=True)
     name = Column(String, nullable=False)
-    users = relationship("User", backref="user_roles", lazy="dynamic")
+    users = relationship("User", backref="roles", lazy="dynamic")
 
     def __repr__(self):
         return f'{self.name}'
@@ -58,7 +58,7 @@ class User(Base):
     password = Column(String, nullable=False)
     email = Column(String, nullable=False)
     role = Column(Integer, ForeignKey('roles.id'))
-    computers = relationship("Computer", backref="checker_computers", lazy="dynamic")
+    computers = relationship("Computer", backref="users", lazy="dynamic")
 
     def __repr__(self):
         return f'{self.name}'
