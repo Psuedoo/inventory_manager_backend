@@ -3,7 +3,7 @@ from datetime import datetime
 
 from database.db_handler import DatabaseHandler
 from database.models import Computer
-from utils.util import generate_computer
+from utils.util import generate_data
 from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.encoders import jsonable_encoder
@@ -14,8 +14,8 @@ handler = DatabaseHandler()
 app = FastAPI()
 
 
-# for i in range(50):
-#     generate_computer(handler, i)
+for i in range(50):
+    generate_data(handler, i)
 
 origins = [
     'http://localhost',
