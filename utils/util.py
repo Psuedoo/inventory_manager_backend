@@ -2,9 +2,7 @@ import random
 import datetime
 from database.models import Computer, User, Role
 
-
-def generate_data(handler, service_tag):
-
+def generate_data(handler, count):
     user_role = Role(
         name="User"
     )
@@ -16,25 +14,31 @@ def generate_data(handler, service_tag):
 
     handler.add_role(admin_role)
 
+
     user_one = User(
         name="John Adams",
         username="jadams",
         password="password123",
         email="jadams@test.com",
-        role=1
+        role=handler.search('Role', {'id': 1})[0]
     )
     user_two = User(
         name="John Doe",
         username="jdoe",
         password="password123",
         email="jdoe@test.com",
-        role=2
+        role=handler.search('Role', {'id': 2})[0]
     )
 
     users = [user_one, user_two]
 
     for user in users:
         handler.add_user(user)
+
+    for i in range(count):
+        generate_computer(handler, i)
+
+def generate_computer(handler, service_tag):
 
     make = 'Dell',
     model = f'Latitude {random.randint(1000, 9000)}'
@@ -57,7 +61,8 @@ def generate_data(handler, service_tag):
         computer_location = f'Classroom {random.choice(["2400", "2401", "2300", "2301"])}'
         class_location = random.choice(['Lab', 'Podium'])
 
-    checker = random.choice([user.name for user in users])
+    db_users = [user for user in handler.search('User', {'id': random.randint(1, 2)})]
+    checker = random.choice(db_users)
     time_checked = datetime.datetime.now() - datetime.timedelta(days=random.randint(1, 100), hours=random.randint(1, 12))
 
     computer = Computer(

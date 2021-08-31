@@ -33,7 +33,6 @@ class DatabaseHandler:
             'name'
         ]
         valididated_props = {}
-        search_item = ''
 
         # Validating inputs
         for key, value in props.items():
@@ -43,17 +42,19 @@ class DatabaseHandler:
             else:
                 print(f'{key} is not a valid property')
 
-        return search_item, valididated_props
+        return valididated_props
 
     def search(self, search_type, search_props: dict):
 
         filters = self.validate_inputs(search_props)
 
+        print(f'{search_type=}')
+
         if search_type == 'Computer':
             search_table = Computer
-        elif search_type == 'User':
+        if search_type == 'User':
             search_table = User
-        elif search_type == 'Role':
+        if search_type == 'Role':
             search_table = Role
 
         
@@ -89,12 +90,12 @@ class DatabaseHandler:
         return self.session.commit()
 
     def remove_computer(self, computer_id):
-        computer = self.search({'id': computer_id})[0]
+        computer = self.search('Computer', {'id': computer_id})[0]
         self.session.delete(computer)
         self.session.commit()
 
     def update_computer(self, computer_id, computer):
-        db_computer = self.search({'id': computer_id})[0]
+        db_computer = self.search('Computer', {'id': computer_id})[0]
 
         db_computer.make = computer.make
         db_computer.model = computer.model
@@ -112,46 +113,49 @@ class DatabaseHandler:
 
         self.session.commit()
 
-    def add_user(self, username, password, email, role_id):
-        user = User(
-            username=username,
-            password=password,
-            email=email,
-            role_id=role_id,
+    def add_user(self, user):
+        valid_user = User(
+            name=user.name,
+            username=user.username,
+            password=user.password,
+            email=user.email,
+            role=user.role,
         )
 
-        self.session.add(user)
+        self.session.add(valid_user)
         self.session.commit()
 
     def remove_user(self, user_id):
-        user = self.search({'id': user_id})[0]
+        user = self.search('User', {'id': user_id})[0]
         self.session.delete(user)
         self.session.commit()
 
     def update_user(self, user_id, user):
-        db_user = self.search({'id': user_id})[0]
+        db_user = self.search('User', {'id': user_id})[0]
 
+        db_user.name = user.name
         db_user.username = user.username
         db_user.password = user.password
         db_email = user.email
-        db_role_id = user.role_id
+        db_role = user.role
 
 
-    def add_role(self, name):
-        role = Role(
-            name=name
+    def add_role(self, role):
+
+        valid_role = Role(
+            name=role.name
         )
 
-        self.session.add(role)
+        self.session.add(valid_role)
         return self.session.commit()
 
     def remove_role(self, role_id):
-        role = self.search({'id': role_id})[0]
+        role = self.search('Role', {'id': role_id})[0]
         self.session.delete(role)
         self.session.commit()
 
     def update_role(self, role_id, role):
-        db_role = self.search({'id': role_id})[0]
+        db_role = self.search('Role', {'id': role_id})[0]
 
         db_role.name = role.name
 

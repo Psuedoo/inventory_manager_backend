@@ -2,7 +2,7 @@ from typing import Optional
 from datetime import datetime 
 
 from database.db_handler import DatabaseHandler
-from database.models import Computer
+from database.models import Computer, Role, User
 from utils.util import generate_data
 from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -13,13 +13,12 @@ from pydantic import BaseModel
 handler = DatabaseHandler()
 app = FastAPI()
 
-
-for i in range(50):
-    generate_data(handler, i)
+generate_data(handler, 50)
 
 origins = [
     'http://localhost',
-    'http://localhost:8000'
+    'http://localhost:8000',
+    'http://localhost:8080'
 ]
 
 app.add_middleware(
@@ -85,12 +84,9 @@ class PostComputer(BaseModel):
 async def root():
     return {'response': 'OK'}
 
-@app.put("/inventory/update/{computer_id}", response_model=PostComputer)
-async def update_inventory(computer_id: str, computer: PostComputer):
-    try:
-        handler.update_computer(computer_id, computer)
-    except Exception as e:
-        return {"error": f"{e}"}
+@app.get("/inventory/")
+async def get_inventory(commons: dict = Depends(common_parameters)):
+    return handler.search('Computer', search_props=commons)
 
 @app.post("/inventory/add/", response_model=PostComputer)
 async def post_inventory(computer: PostComputer):
@@ -100,25 +96,16 @@ async def post_inventory(computer: PostComputer):
     except Exception as e:
         return {"error": f"{e}"}
 
+@app.put("/inventory/update/{computer_id}", response_model=PostComputer)
+async def update_inventory(computer_id: str, computer: PostComputer):
+    try:
+        handler.update_computer(computer_id, computer)
+    except Exception as e:
+        return {"error": f"{e}"}
+
 @app.delete("/inventory/delete/{computer_id}", response_model=PostComputer)
 async def delete_computer(computer_id):
     try:
         handler.remove_computer(computer_id)
     except Exception as e:
         return {"error": f"{e}"}
-
-@app.get("/inventory/")
-async def get_inventory(commons: dict = Depends(common_parameters)):
-    return handler.search_computer(search_props=commons)
-
-
-# print(handler.search(one='one', two='two', make='Dell', service_tag="10"))
-
-# computer = handler.search(service_tag="10")
-# if len(computer) == 1:
-#     handler.remove_computer(computer[0])
-# else:
-#     print("Can't delete multiple computers!")
-
-
-
