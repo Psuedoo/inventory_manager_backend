@@ -22,6 +22,7 @@ def generate_data(handler, count):
         email="jadams@test.com",
         role=handler.search('Role', {'id': 1})[0]
     )
+    handler.add_user(user_one)
     user_two = User(
         name="John Doe",
         username="jdoe",
@@ -29,11 +30,7 @@ def generate_data(handler, count):
         email="jdoe@test.com",
         role=handler.search('Role', {'id': 2})[0]
     )
-
-    users = [user_one, user_two]
-
-    for user in users:
-        handler.add_user(user)
+    handler.add_user(user_two)
 
     for i in range(count):
         generate_computer(handler, i)

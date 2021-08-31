@@ -114,15 +114,15 @@ class DatabaseHandler:
         self.session.commit()
 
     def add_user(self, user):
-        valid_user = User(
-            name=user.name,
-            username=user.username,
-            password=user.password,
-            email=user.email,
-            role=user.role,
-        )
+        # valid_user = User(
+        #     name=user.name,
+        #     username=user.username,
+        #     password=user.password,
+        #     email=user.email,
+        #     role=user.role,
+        # )
 
-        self.session.add(valid_user)
+        self.session.add(user)
         self.session.commit()
 
     def remove_user(self, user_id):

@@ -32,8 +32,8 @@ class Computer(Base):
     on_location = Column(Boolean, nullable=False)
     computer_location = Column(String, nullable=False)
     class_location = Column(String, default='N/A', nullable=False)
-    checker = relationship("User", back_populates="computers")
     checker_id = Column(Integer, ForeignKey('users.id'))
+    checker = relationship("User", back_populates="computers")
     time_checked = Column(DateTime, default=datetime.now(), nullable=False)
     notes = Column(String, default='', nullable=False)
 
@@ -45,7 +45,7 @@ class Role(Base):
 
     id = Column(Integer, Sequence('role_id_seq'), primary_key=True)
     name = Column(String, nullable=False)
-    users = relationship("User", back_populates="role")
+    users = relationship("User", backref="role", lazy="dynamic")
 
     def __repr__(self):
         return f'{self.name}'
@@ -58,8 +58,8 @@ class User(Base):
     username = Column(String, nullable=False)
     password = Column(String, nullable=False)
     email = Column(String, nullable=False)
-    role = relationship("Role", back_populates="users")
     role_id = Column(Integer, ForeignKey('roles.id'))
+    # role = relationship("Role", back_populates="users")
     computers = relationship("Computer", back_populates="checker")
 
     def __repr__(self):
