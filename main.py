@@ -29,7 +29,6 @@ app.add_middleware(
 )
 
 
-
 @app.get("/")
 async def root():
     return {'response': 'OK'}
@@ -59,3 +58,11 @@ async def delete_computer(computer_id):
         handler.remove_computer(computer_id)
     except Exception as e:
         return {"error": f"{e}"}
+
+@app.get("/users/")
+async def get_user(commons: dict = Depends(user_common_parameters)):
+    return handler.search('User', search_props=commons)
+
+@app.get("/user/{user_id}/computers/")
+async def get_user_by_id(user_id):
+    return handler.search('User', {'id': user_id})[0].computers

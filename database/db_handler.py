@@ -48,8 +48,6 @@ class DatabaseHandler:
 
         filters = self.validate_inputs(search_props)
 
-        print(f'{search_type=}')
-
         if search_type == 'Computer':
             search_table = Computer
         if search_type == 'User':
@@ -61,7 +59,6 @@ class DatabaseHandler:
         query = self.session.query(search_table)
 
         for attr, value in filters.items():
-            print(attr, value)
             query = query.filter(getattr(search_table, attr)==value)
 
         return query.all()
