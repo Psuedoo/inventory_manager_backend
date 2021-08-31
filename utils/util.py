@@ -3,6 +3,7 @@ import datetime
 from database.models import Computer, User, Role
 
 def generate_data(handler, count):
+    """Generates fake data for database"""
     user_role = Role(
         name="User"
     )

@@ -13,6 +13,7 @@ class DatabaseHandler:
         self.session = initialize_db()
 
     def validate_inputs(self, props):
+        """Validate inputs for searching."""
         valid_properties = [
             'id',
             'make',
@@ -45,6 +46,7 @@ class DatabaseHandler:
         return valididated_props
 
     def search(self, search_type, search_props: dict):
+        """Dynamically searches the database."""
 
         filters = self.validate_inputs(search_props)
 
@@ -64,6 +66,7 @@ class DatabaseHandler:
         return query.all()
 
     def add_computer(self, computer):
+        """Adds a computer to database."""
         if not computer.time_checked:
             computer.time_checked = datetime.now()
 
@@ -87,11 +90,13 @@ class DatabaseHandler:
         return self.session.commit()
 
     def remove_computer(self, computer_id):
+        """Removes a computer from the database."""
         computer = self.search('Computer', {'id': computer_id})[0]
         self.session.delete(computer)
         self.session.commit()
 
     def update_computer(self, computer_id, computer):
+        """"Updates a computer in the database."""
         db_computer = self.search('Computer', {'id': computer_id})[0]
 
         db_computer.make = computer.make
@@ -111,6 +116,7 @@ class DatabaseHandler:
         self.session.commit()
 
     def add_user(self, user):
+        """Adds a user to the database."""
         # valid_user = User(
         #     name=user.name,
         #     username=user.username,
@@ -123,11 +129,13 @@ class DatabaseHandler:
         self.session.commit()
 
     def remove_user(self, user_id):
+        """Removes a user from the database."""
         user = self.search('User', {'id': user_id})[0]
         self.session.delete(user)
         self.session.commit()
 
     def update_user(self, user_id, user):
+        """Updates a user in the database."""
         db_user = self.search('User', {'id': user_id})[0]
 
         db_user.name = user.name
@@ -138,6 +146,7 @@ class DatabaseHandler:
 
 
     def add_role(self, role):
+        """Adds a role to the database."""
 
         valid_role = Role(
             name=role.name
@@ -147,11 +156,13 @@ class DatabaseHandler:
         return self.session.commit()
 
     def remove_role(self, role_id):
+        """Removes a role from the database."""
         role = self.search('Role', {'id': role_id})[0]
         self.session.delete(role)
         self.session.commit()
 
     def update_role(self, role_id, role):
+        """Updates a role in the database."""
         db_role = self.search('Role', {'id': role_id})[0]
 
         db_role.name = role.name

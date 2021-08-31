@@ -31,14 +31,17 @@ app.add_middleware(
 
 @app.get("/")
 async def root():
+    """Returns OK."""
     return {'response': 'OK'}
 
 @app.get("/inventory/")
 async def get_inventory(commons: dict = Depends(computer_common_parameters)):
+    """Returns computers"""
     return handler.search('Computer', search_props=commons)
 
 @app.post("/inventory/add/", response_model=PostComputer)
 async def post_inventory(computer: PostComputer):
+    """Adds a computer to the database"""
     print(computer)
     try:
         handler.add_computer(computer)
@@ -47,6 +50,7 @@ async def post_inventory(computer: PostComputer):
 
 @app.put("/inventory/update/{computer_id}", response_model=PostComputer)
 async def update_inventory(computer_id: str, computer: PostComputer):
+    """Updates a computer in the database"""
     try:
         handler.update_computer(computer_id, computer)
     except Exception as e:
@@ -54,6 +58,7 @@ async def update_inventory(computer_id: str, computer: PostComputer):
 
 @app.delete("/inventory/delete/{computer_id}", response_model=PostComputer)
 async def delete_computer(computer_id):
+    """Deletes a computer from the database"""
     try:
         handler.remove_computer(computer_id)
     except Exception as e:
@@ -61,8 +66,5 @@ async def delete_computer(computer_id):
 
 @app.get("/users/")
 async def get_user(commons: dict = Depends(user_common_parameters)):
+    """Returns users"""
     return handler.search('User', search_props=commons)
-
-@app.get("/user/{user_id}/computers/")
-async def get_user_by_id(user_id):
-    return handler.search('User', {'id': user_id})[0].computers

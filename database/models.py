@@ -8,6 +8,7 @@ from sqlalchemy import create_engine, Column, Integer, String, Sequence, Boolean
 Base = declarative_base()
 
 def initialize_db():
+    """Initializes database."""
     engine = create_engine(f'postgresql+psycopg2://{USERNAME}:{PASSWORD}@{SERVER_IP}/{DATABASE_NAME}', echo=True)
     
     session_maker = sessionmaker(bind=engine)
