@@ -34,7 +34,7 @@ def generate_data(handler, count):
     handler.add_user(user_two)
 
     for i in range(count):
-        generate_computer(handler, i)
+        handler.add_computer(generate_computer(handler, i))
 
 def generate_computer(handler, service_tag):
 
@@ -79,7 +79,9 @@ def generate_computer(handler, service_tag):
         notes=None
     )
 
-    success = handler.add_computer(computer)
+    return computer
 
-    if success:
-        print('Successfully added')
+    # success = handler.add_computer(computer)
+
+    # if success:
+    #     print('Successfully added')
