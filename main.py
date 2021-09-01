@@ -68,3 +68,8 @@ async def delete_computer(computer_id):
 async def get_user(commons: dict = Depends(user_common_parameters)):
     """Returns users"""
     return handler.search('User', search_props=commons)
+
+@app.get("/roles/")
+async def get_role(commons: dict = Depends(role_common_parameters)):
+    """Returns roles"""
+    return handler.search('Role', search_props=commons)
