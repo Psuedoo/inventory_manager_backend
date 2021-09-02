@@ -1,5 +1,7 @@
 sqlalchemy
 psycopg2
 fastapi
+fastapi-login
 uvicorn
 pydantic
+python-multipart

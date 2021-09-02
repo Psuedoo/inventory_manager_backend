@@ -63,7 +63,7 @@ class DatabaseHandler:
         for attr, value in filters.items():
             query = query.filter(getattr(search_table, attr)==value)
 
-        return query.all()
+        return query
 
     def add_computer(self, computer):
         """Adds a computer to database."""
@@ -75,13 +75,13 @@ class DatabaseHandler:
 
     def remove_computer(self, computer_id):
         """Removes a computer from the database."""
-        computer = self.search('Computer', {'id': computer_id})[0]
+        computer = self.search('Computer', {'id': computer_id}).first()
         self.session.delete(computer)
         self.session.commit()
 
     def update_computer(self, computer_id, computer):
         """"Updates a computer in the database."""
-        db_computer = self.search('Computer', {'id': computer_id})[0]
+        db_computer = self.search('Computer', {'id': computer_id}).first()
 
         db_computer.make = computer.make
         db_computer.model = computer.model
@@ -106,13 +106,13 @@ class DatabaseHandler:
 
     def remove_user(self, user_id):
         """Removes a user from the database."""
-        user = self.search('User', {'id': user_id})[0]
+        user = self.search('User', {'id': user_id}).first()
         self.session.delete(user)
         self.session.commit()
 
     def update_user(self, user_id, user):
         """Updates a user in the database."""
-        db_user = self.search('User', {'id': user_id})[0]
+        db_user = self.search('User', {'id': user_id}).first()
 
         db_user.name = user.name
         db_user.username = user.username
@@ -128,13 +128,13 @@ class DatabaseHandler:
 
     def remove_role(self, role_id):
         """Removes a role from the database."""
-        role = self.search('Role', {'id': role_id})[0]
+        role = self.search('Role', {'id': role_id}).first()
         self.session.delete(role)
         self.session.commit()
 
     def update_role(self, role_id, role):
         """Updates a role in the database."""
-        db_role = self.search('Role', {'id': role_id})[0]
+        db_role = self.search('Role', {'id': role_id}).first()
 
         db_role.name = role.name
 

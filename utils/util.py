@@ -21,7 +21,7 @@ def generate_data(handler, count):
         username="jadams",
         password="password123",
         email="jadams@test.com",
-        role=handler.search('Role', {'id': 1})[0]
+        role=handler.search('Role', {'id': 1}).first()
     )
     handler.add_user(user_one)
     user_two = User(
@@ -29,7 +29,7 @@ def generate_data(handler, count):
         username="jdoe",
         password="password123",
         email="jdoe@test.com",
-        role=handler.search('Role', {'id': 2})[0]
+        role=handler.search('Role', {'id': 2}).first()
     )
     handler.add_user(user_two)
 
@@ -59,8 +59,7 @@ def generate_computer(handler, service_tag):
         computer_location = f'Classroom {random.choice(["2400", "2401", "2300", "2301"])}'
         class_location = random.choice(['Lab', 'Podium'])
 
-    db_users = [user for user in handler.search('User', {'id': random.randint(1, 2)})]
-    checker = random.choice(db_users)
+    checker = handler.search('User', {'id': random.randint(1, 2)}).first()
     time_checked = datetime.datetime.now() - datetime.timedelta(days=random.randint(1, 100), hours=random.randint(1, 12))
 
     computer = Computer(

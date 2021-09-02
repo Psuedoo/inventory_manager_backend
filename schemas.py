@@ -22,6 +22,23 @@ class PostComputer(BaseModel):
         orm_mode = True
 
 
+class PostUser(BaseModel):
+    name: str
+    username: str
+    email: str
+    role: int
+
+    class Config:
+        orm_mode = True
+
+
+class PostRole(BaseModel):
+    name: str
+
+    class Config:
+        orm_mode = True
+
+
 async def computer_common_parameters(
     make: Optional[str] = None,
     model: Optional[str] = None,
@@ -36,7 +53,6 @@ async def computer_common_parameters(
     checker: Optional[str] = None,
     time_checked: Optional[datetime] = None,
     notes: Optional[str] = None
-
 ):
     return {
         "make": make,
@@ -54,17 +70,6 @@ async def computer_common_parameters(
         "notes": notes,
     }
 
-
-class PostUser(BaseModel):
-    name: str
-    username: str
-    password: str
-    email: str
-    role: int
-
-    class Config:
-        orm_mode = True
-
 async def user_common_parameters(
     name: Optional[str] = None,
     username: Optional[str] = None,
@@ -79,12 +84,6 @@ async def user_common_parameters(
         "email": email,
         "role": role
     }
-
-class PostRole(BaseModel):
-    name: str
-
-    class Config:
-        orm_mode = True
 
 async def role_common_parameters(
     name: Optional[str] = None,

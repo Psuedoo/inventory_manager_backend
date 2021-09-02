@@ -2,7 +2,7 @@ from datetime import datetime
 
 from sqlalchemy.orm.session import sessionmaker
 from constant import *
-from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy.orm import declarative_base, relationship, deferred
 from sqlalchemy import create_engine, Column, Integer, String, Sequence, Boolean, DateTime, ForeignKey
 
 Base = declarative_base()
@@ -57,7 +57,7 @@ class User(Base):
     id = Column(Integer, Sequence('user_id_seq'), primary_key=True)
     name = Column(String, nullable=False)
     username = Column(String, nullable=False)
-    password = Column(String, nullable=False)
+    password = deferred(Column(String, nullable=False))
     email = Column(String, nullable=False)
     role_id = Column(Integer, ForeignKey('roles.id'))
     # role = relationship("Role", back_populates="users", lazy='subquery')
@@ -65,5 +65,3 @@ class User(Base):
 
     def __repr__(self):
         return f'{self.name}'
-
-    
