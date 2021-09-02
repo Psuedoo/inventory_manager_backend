@@ -16,8 +16,8 @@ app = FastAPI()
 manager = LoginManager(SECRET_KEY, '/login')
 
 @manager.user_loader
-def query_user(handler, user_email: str):
-    return handler.search('User', {'email': user_email}).first()
+def query_user(username: str):
+    return handler.search('User', {'username': username}).first()
 
 generate_data(handler, 50)
 
@@ -43,19 +43,19 @@ async def root():
 
 @app.post("/login")
 def login(data: OAuth2PasswordRequestForm = Depends()):
-    email = data.username
+    username = data.username
     password = data.password
 
-    user = query_user(handler, email)
+    user = query_user(username)
     if not user:
         raise InvalidCredentialsException
     elif password != user.password:
         raise InvalidCredentialsException
 
     access_token = manager.create_access_token(
-        data={'sub': email}
+        data=dict(sub=username)
     )
-    return {'token': access_token}
+    return {'access_token': access_token, 'token_type': 'bearer'}
 
 
 @app.get("/protected")
